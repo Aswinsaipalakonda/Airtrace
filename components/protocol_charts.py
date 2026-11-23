@@ -17,7 +17,7 @@ def render_protocol_charts(snap: CaptureStatisticsSnapshot):
     with c_left:
         st.markdown(
             """
-            <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: #94A3B8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: #94A3B8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                 <span>📊 Protocol Distribution</span>
             </div>
             """,
@@ -36,7 +36,7 @@ def render_protocol_charts(snap: CaptureStatisticsSnapshot):
             df_proto["Percentage"] = (df_proto["Count"] / total * 100).round(1)
 
             try:
-                donut = alt.Chart(df_proto).mark_arc(innerRadius=52, outerRadius=90, stroke="#0D1322", strokeWidth=2).encode(
+                donut = alt.Chart(df_proto).mark_arc(innerRadius=50, outerRadius=86, stroke="#0A0F1D", strokeWidth=2).encode(
                     theta=alt.Theta(field="Count", type="quantitative"),
                     color=alt.Color(
                         field="Protocol",
@@ -57,22 +57,21 @@ def render_protocol_charts(snap: CaptureStatisticsSnapshot):
                         alt.Tooltip("Count:Q", format=","),
                         alt.Tooltip("Percentage:Q", format=".1f", title="Share (%)"),
                     ],
-                ).properties(height=230, background="transparent")
+                ).properties(height=210, background="transparent")
 
                 st.altair_chart(donut, use_container_width=True)
             except Exception as e:
                 logger.error(f"Altair donut chart fallback: {e}")
-                # Clean fallback table/bars if Vega-Lite fails
                 for row in data:
                     pct = (row["Count"] / total * 100) if total else 0
                     st.progress(pct / 100.0, text=f"{row['Protocol']}: {row['Count']} ({pct:.1f}%)")
         else:
             st.markdown(
                 """
-                <div style="background: linear-gradient(145deg, #131B2E 0%, #0D1322 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 36px 20px; text-align: center; color: #94A3B8;">
+                <div style="background: linear-gradient(145deg, #0F172A 0%, #0A0F1D 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 34px 20px; text-align: center; color: #94A3B8; box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.4);">
                     <div style="font-size: 22px; margin-bottom: 6px;">⏳</div>
                     <div style="font-size: 14px; font-weight: 600; color: #F1F5F9;">No packets captured yet</div>
-                    <div style="font-size: 12px; margin-top: 4px;">Click <strong>START</strong> above to observe protocol breakdown</div>
+                    <div style="font-size: 12px; margin-top: 4px;">Click <strong style="color: #00C8FF;">▶ START</strong> above to display protocol split</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -81,7 +80,7 @@ def render_protocol_charts(snap: CaptureStatisticsSnapshot):
     with c_right:
         st.markdown(
             """
-            <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: #94A3B8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: #94A3B8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                 <span>🌐 Top Communicating Endpoints</span>
             </div>
             """,
@@ -103,7 +102,7 @@ def render_protocol_charts(snap: CaptureStatisticsSnapshot):
                     x=alt.X("Packets:Q", title="Packet Count", axis=alt.Axis(labelColor="#94A3B8", titleColor="#94A3B8")),
                     y=alt.Y("IP Address:N", sort="-x", title=None, axis=alt.Axis(labelColor="#F8FAFC")),
                     tooltip=["IP Address", "Packets"],
-                ).properties(height=230, background="transparent")
+                ).properties(height=210, background="transparent")
 
                 st.altair_chart(bars, use_container_width=True)
             except Exception as e:
@@ -113,7 +112,7 @@ def render_protocol_charts(snap: CaptureStatisticsSnapshot):
         else:
             st.markdown(
                 """
-                <div style="background: linear-gradient(145deg, #131B2E 0%, #0D1322 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 36px 20px; text-align: center; color: #94A3B8;">
+                <div style="background: linear-gradient(145deg, #0F172A 0%, #0A0F1D 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 34px 20px; text-align: center; color: #94A3B8; box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.4);">
                     <div style="font-size: 22px; margin-bottom: 6px;">📡</div>
                     <div style="font-size: 14px; font-weight: 600; color: #F1F5F9;">Awaiting Network Endpoints</div>
                     <div style="font-size: 12px; margin-top: 4px;">Top talker IPs will be ranked here during capture</div>

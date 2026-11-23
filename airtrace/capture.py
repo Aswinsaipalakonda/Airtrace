@@ -111,6 +111,9 @@ class CaptureWorker:
             ("192.168.1.100", "224.0.0.22", None, "OTHER", None),        # IGMP
         ]
 
+        # Use explicit MACs to prevent Scapy from attempting layer-2 ARP/getmacbyip lookups without WinPcap
+        default_ether = Ether(src="00:11:22:33:44:55", dst="66:77:88:99:aa:bb")
+
         while not self.stop_event.is_set():
             if self.duration_limit and (time.monotonic() - self.start_time) >= self.duration_limit:
                 self.stop_event.set()
@@ -123,27 +126,26 @@ class CaptureWorker:
                     break
 
                 src, dst, dport, proto, flags = random.choice(endpoints)
-                wire_bytes = random.randint(54, 1514)
 
                 if proto == "TCP":
                     sport = random.randint(49152, 65535)
-                    pkt = Ether() / IP(src=src, dst=dst, ttl=random.choice([64, 128])) / TCP(
+                    pkt = default_ether / IP(src=src, dst=dst, ttl=random.choice([64, 128])) / TCP(
                         sport=sport, dport=dport, flags=flags or "PA", seq=random.randint(1000, 90000)
                     )
                 elif proto == "UDP":
                     sport = random.randint(49152, 65535)
-                    pkt = Ether() / IP(src=src, dst=dst, ttl=random.choice([64, 128])) / UDP(
+                    pkt = default_ether / IP(src=src, dst=dst, ttl=random.choice([64, 128])) / UDP(
                         sport=sport, dport=dport
                     )
                 elif proto == "ICMP":
-                    pkt = Ether() / IP(src=src, dst=dst, ttl=64) / ICMP(type=8, code=0, id=1, seq=random.randint(1, 100))
+                    pkt = default_ether / IP(src=src, dst=dst, ttl=64) / ICMP(type=8, code=0, id=1, seq=random.randint(1, 100))
                 else:
-                    pkt = Ether() / IP(src=src, dst=dst, proto=2, ttl=1)
+                    pkt = default_ether / IP(src=src, dst=dst, proto=2, ttl=1)
 
                 self._process_scapy_packet(pkt)
 
-            # Sleep briefly to simulate normal traffic pace (100ms - 300ms)
-            time.sleep(random.uniform(0.1, 0.3))
+            # Sleep briefly to simulate normal traffic pace (100ms - 250ms)
+            time.sleep(random.uniform(0.1, 0.25))
 
 
 class CaptureController:

@@ -1,4 +1,4 @@
-"""Capture controls bar component."""
+"""Capture controls bar component styled as a unified Command Deck."""
 
 from typing import Callable, Optional
 import streamlit as st
@@ -17,23 +17,7 @@ def render_capture_controls(
     npcap_available: bool,
     npcap_message: str,
 ):
-    """Render the adapter selector, BPF filter, and Start/Stop buttons with rounded modern controls."""
-    # Modernized Driver Notice Card
-    if not npcap_available:
-        st.markdown(
-            f"""
-            <div style="background: rgba(255, 179, 0, 0.06); border: 1px solid rgba(255, 179, 0, 0.25); border-radius: 14px; padding: 12px 18px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 14px;">
-                <div style="font-size: 13px; color: #F1F5F9; line-height: 1.4;">
-                    <strong style="color: #FFB300;">ℹ️ Windows Packet Driver:</strong> {npcap_message}
-                </div>
-                <div style="font-size: 12px; color: #00C8FF; background: rgba(0, 200, 255, 0.1); border: 1px solid rgba(0, 200, 255, 0.25); padding: 4px 10px; border-radius: 10px; white-space: nowrap; font-weight: 600;">
-                    💡 Tip: Synthetic Demo Adapter is active
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
+    """Render the adapter selector, BPF filter, and Start/Stop buttons inside a unified Command Deck."""
     # Format options for selectbox
     options = {}
     default_idx = 0
@@ -42,12 +26,34 @@ def render_capture_controls(
         if iface.ip_address:
             label += f" ({iface.ip_address})"
         elif iface.description and iface.description != iface.name:
-            label += f" - {iface.description[:35]}"
+            label += f" - {iface.description[:32]}"
         options[iface.device_id] = label
         if selected_device_id and iface.device_id == selected_device_id:
             default_idx = idx
 
-    c1, c2, c3, c4, c5 = st.columns([3.6, 2.4, 1.2, 1.2, 1.2])
+    driver_badge = (
+        '<span style="color: #00E676; background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.25); padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">🛡️ Npcap Driver Active</span>'
+        if npcap_available
+        else '<span style="color: #FFB300; background: rgba(255, 179, 0, 0.1); border: 1px solid rgba(255, 179, 0, 0.25); padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">💡 Demo Adapter Active (Npcap not detected)</span>'
+    )
+
+    # Deck Header
+    st.markdown(
+        f"""
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 0 4px;">
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: #94A3B8; display: flex; align-items: center; gap: 6px;">
+                <span>⚡ CAPTURE ENGINE CONTROLS</span>
+            </div>
+            <div>
+                {driver_badge}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # 5 Column Aligned Toolbar
+    c1, c2, c3, c4, c5 = st.columns([3.5, 2.5, 1.3, 1.3, 1.3])
 
     with c1:
         selected_id = st.selectbox(
@@ -91,5 +97,5 @@ def render_capture_controls(
             st.button("⏹ STOP", use_container_width=True, disabled=True)
 
     with c5:
-        if st.button("🔄 CLEAR", use_container_width=True, disabled=is_capturing, help="Clear capture history and reset stats"):
+        if st.button("🔄 CLEAR", use_container_width=True, disabled=is_capturing, help="Clear capture history and reset statistics"):
             on_clear()

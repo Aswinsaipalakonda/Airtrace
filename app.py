@@ -30,58 +30,72 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Custom High-End Cockpit Styling with Rounded Corners and Smooth Glows
+# High-End Cyber Engineering Dark Cockpit Stylesheet
 st.markdown(
     """
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-    /* Dark Theme Canvas */
+    /* Global Base Canvas */
+    html, body, [class*="css"] {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    }
     .stApp {
-        background-color: #0B0F19;
+        background-color: #070A12;
         color: #F8FAFC;
     }
     header[data-testid="stHeader"] {
-        background-color: #0B0F19;
+        background-color: #070A12;
     }
     .block-container {
         padding-top: 1.2rem;
         padding-bottom: 2rem;
-        max-width: 95rem;
+        max-width: 96rem;
     }
     
-    /* Rounded Buttons with Gradient & Shadows */
+    /* Unified Interactive Buttons */
     button[kind="primary"] {
         background: linear-gradient(135deg, #00C8FF 0%, #0070F3 100%) !important;
         border: none !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
+        height: 42px !important;
         color: #FFFFFF !important;
+        font-family: 'Inter', sans-serif !important;
         font-weight: 700 !important;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.5px !important;
         box-shadow: 0 4px 14px rgba(0, 200, 255, 0.35) !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
     button[kind="primary"]:hover {
-        box-shadow: 0 6px 20px rgba(0, 200, 255, 0.5) !important;
+        box-shadow: 0 6px 22px rgba(0, 200, 255, 0.55) !important;
         transform: translateY(-1px);
     }
     button[kind="secondary"] {
         background: linear-gradient(135deg, #FF4B4B 0%, #DC2626 100%) !important;
         border: none !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
+        height: 42px !important;
         color: #FFFFFF !important;
+        font-family: 'Inter', sans-serif !important;
         font-weight: 700 !important;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.5px !important;
         box-shadow: 0 4px 14px rgba(255, 75, 75, 0.35) !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
     button[kind="secondary"]:hover {
-        box-shadow: 0 6px 20px rgba(255, 75, 75, 0.5) !important;
+        box-shadow: 0 6px 22px rgba(255, 75, 75, 0.55) !important;
         transform: translateY(-1px);
     }
     button:not([kind="primary"]):not([kind="secondary"]) {
-        border-radius: 12px !important;
-        background-color: #1E293B !important;
+        border-radius: 10px !important;
+        height: 42px !important;
+        background-color: #131B2E !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         color: #94A3B8 !important;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 600 !important;
         transition: all 0.2s ease !important;
     }
     button:not([kind="primary"]):not([kind="secondary"]):hover {
@@ -89,48 +103,58 @@ st.markdown(
         color: #F8FAFC !important;
     }
 
-    /* Selectboxes and Text Inputs with Rounded Corners */
+    /* Form Inputs and Selectors Aligned with Buttons */
     div[data-baseweb="select"] > div {
-        background-color: #131B2E !important;
+        background-color: #0F172A !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
+        height: 42px !important;
         color: #F8FAFC !important;
+        font-family: 'Inter', sans-serif !important;
     }
     input[type="text"] {
-        background-color: #131B2E !important;
+        background-color: #0F172A !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 12px !important;
+        border-radius: 10px !important;
+        height: 42px !important;
         color: #F8FAFC !important;
+        font-family: 'Inter', sans-serif !important;
     }
     
-    /* Modern Rounded Containers for Tables and Expanders */
+    /* Modern Containers for Tables & Expanders */
     [data-testid="stDataFrame"] {
-        background-color: #131B2E;
+        background-color: #0F172A;
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 16px !important;
         overflow: hidden;
-        box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.45);
     }
     details[data-testid="stExpander"] {
-        background-color: #131B2E !important;
+        background-color: #0F172A !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 14px !important;
         overflow: hidden;
     }
     summary[data-testid="stExpanderSummary"] {
         border-radius: 14px !important;
+        font-weight: 600 !important;
     }
     
-    /* Scrollbar Aesthetics */
+    /* Precision Monospace Formatting for Telemetry */
+    code, pre, .mono {
+        font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* Scrollbars */
     ::-webkit-scrollbar {
         width: 6px;
         height: 6px;
     }
     ::-webkit-scrollbar-track {
-        background: #0B0F19;
+        background: #070A12;
     }
     ::-webkit-scrollbar-thumb {
-        background: #232F48;
+        background: #1E293B;
         border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
@@ -196,7 +220,7 @@ def handle_clear():
     st.rerun()
 
 
-# Capture Controls Bar
+# Command Deck: Capture Controls
 render_capture_controls(
     interfaces=interfaces,
     selected_device_id=st.session_state["selected_iface"],
@@ -214,7 +238,7 @@ st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
 render_metric_cards(stats_snapshot)
 
 # Protocol Analytics Charts
-st.markdown("<div style='margin-top: 18px;'></div>", unsafe_allow_html=True)
+st.markdown("<div style='margin-top: 16px;'></div>", unsafe_allow_html=True)
 render_protocol_charts(stats_snapshot)
 
 # Packet Explorer & Filtering Section
@@ -223,7 +247,7 @@ c_title, c_proto, c_search = st.columns([2.5, 2, 2.5])
 
 with c_title:
     st.markdown(
-        "<div style='font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #F8FAFC; padding-top: 6px;'>📡 Live Packet Explorer</div>",
+        "<div style='font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: #94A3B8; padding-top: 10px;'>📡 LIVE PACKET EXPLORER</div>",
         unsafe_allow_html=True,
     )
 
@@ -261,12 +285,12 @@ if active_pkt:
     render_packet_details(active_pkt)
 
 # CSV Export Section
-st.markdown("<hr style='border: none; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 20px 0 14px 0;'/>", unsafe_allow_html=True)
+st.markdown("<div style='margin-top: 16px;'></div>", unsafe_allow_html=True)
 col_exp_info, col_exp_btn = st.columns([5, 2])
 
 with col_exp_info:
     st.markdown(
-        "<div style='font-size: 12px; color: #94A3B8;'><strong>🛡 Privacy Notice:</strong> CSV export extracts packet header metadata only. Application payloads, cookies, and credentials are intentionally omitted.</div>",
+        "<div style='font-size: 12px; color: #64748B;'><strong>🛡 Metadata-Only Policy:</strong> CSV export extracts packet header fields only. Application layer contents and user credentials are never captured or written.</div>",
         unsafe_allow_html=True,
     )
 

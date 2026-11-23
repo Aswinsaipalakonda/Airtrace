@@ -15,7 +15,7 @@ def render_packet_details(record: PacketRecord | None):
         with c1:
             st.markdown(
                 f"""
-                <div style="background: linear-gradient(145deg, #131B2E 0%, #0D1322 100%); border: 1px solid rgba(0, 200, 255, 0.25); border-radius: 12px; padding: 14px 16px; font-family: monospace; font-size: 12px;">
+                <div style="background: linear-gradient(145deg, #0F172A 0%, #0A0F1D 100%); border: 1px solid rgba(0, 200, 255, 0.25); border-radius: 12px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
                     <div style="color: #00C8FF; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px;">🌐 IP LAYER (IPv4)</div>
                     <div style="margin: 3px 0;">Source IP: <span style="color: #F8FAFC; font-weight: 600;">{record.source_ip}</span></div>
                     <div style="margin: 3px 0;">Dest IP:   <span style="color: #F8FAFC; font-weight: 600;">{record.destination_ip}</span></div>
@@ -63,7 +63,7 @@ def render_packet_details(record: PacketRecord | None):
 
             st.markdown(
                 f"""
-                <div style="background: linear-gradient(145deg, #131B2E 0%, #0D1322 100%); border: 1px solid rgba(0, 230, 118, 0.25); border-radius: 12px; padding: 14px 16px; font-family: monospace; font-size: 12px;">
+                <div style="background: linear-gradient(145deg, #0F172A 0%, #0A0F1D 100%); border: 1px solid rgba(0, 230, 118, 0.25); border-radius: 12px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
                     <div style="color: #00E676; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px;">{transport_title}</div>
                     {content}
                 </div>
@@ -74,8 +74,8 @@ def render_packet_details(record: PacketRecord | None):
         with c3:
             st.markdown(
                 f"""
-                <div style="background: linear-gradient(145deg, #131B2E 0%, #0D1322 100%); border: 1px solid rgba(179, 136, 255, 0.25); border-radius: 12px; padding: 14px 16px; font-family: monospace; font-size: 12px;">
-                    <div style="color: #B388FF; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px;">⏱ METADATA & TELEMETRY</div>
+                <div style="background: linear-gradient(145deg, #0F172A 0%, #0A0F1D 100%); border: 1px solid rgba(179, 136, 255, 0.25); border-radius: 12px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+                    <div style="color: #B388FF; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px;">⏱ TELEMETRY & AUDIT</div>
                     <div style="margin: 3px 0;">Packet No:   <span style="color: #F8FAFC; font-weight: 600;">#{record.packet_number}</span></div>
                     <div style="margin: 3px 0;">Timestamp:   <span style="color: #F8FAFC;">{record.timestamp}</span></div>
                     <div style="margin: 3px 0;">Epoch Time:  <span style="color: #F8FAFC;">{record.epoch_time:.6f}</span></div>

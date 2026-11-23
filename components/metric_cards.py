@@ -1,4 +1,4 @@
-"""High-precision KPI metric cards component with modern rounded styling."""
+"""High-precision KPI metric cards component with modern glassmorphism styling."""
 
 import streamlit as st
 from airtrace.models import CaptureStatisticsSnapshot
@@ -27,16 +27,17 @@ def format_rate_bps(bps: float) -> str:
 
 
 def render_metric_cards(snap: CaptureStatisticsSnapshot):
-    """Render 4 compact, high-density KPI tiles with modern rounded design."""
+    """Render 4 compact, high-density KPI tiles with sleek glassmorphism."""
     c1, c2, c3, c4 = st.columns(4)
 
-    card_style = """
-        <div style="background: linear-gradient(145deg, #131B2E 0%, #0D1322 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 16px 20px; box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.35); transition: transform 0.2s ease;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+    card_template = """
+        <div style="background: linear-gradient(145deg, #0F172A 0%, #0A0F1D 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 16px 20px; box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.45); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: {accent_color};"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: #94A3B8;">{title}</span>
-                <span style="font-size: 12px; color: {accent_color};">●</span>
+                <span style="font-size: 14px;">{icon}</span>
             </div>
-            <div style="font-size: 26px; font-weight: 800; color: #FFFFFF; font-family: monospace; letter-spacing: -0.5px; margin: 4px 0 6px 0;">{value}</div>
+            <div style="font-size: 26px; font-weight: 800; color: #FFFFFF; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.5px; margin: 4px 0 6px 0;">{value}</div>
             <div style="font-size: 11px; color: {sub_color}; font-weight: 600; display: flex; align-items: center; gap: 4px;">
                 <span>{subtitle}</span>
             </div>
@@ -45,8 +46,9 @@ def render_metric_cards(snap: CaptureStatisticsSnapshot):
 
     with c1:
         st.markdown(
-            card_style.format(
+            card_template.format(
                 title="Total Packets",
+                icon="📦",
                 value=f"{snap.total_packets:,}",
                 subtitle=f"⚡ {snap.packets_per_second:.1f} pkt/s (rolling 5s)",
                 accent_color="#00C8FF",
@@ -57,10 +59,11 @@ def render_metric_cards(snap: CaptureStatisticsSnapshot):
 
     with c2:
         st.markdown(
-            card_style.format(
+            card_template.format(
                 title="Captured Volume",
+                icon="💾",
                 value=format_bytes(snap.total_bytes),
-                subtitle=f"📶 {format_rate_bps(snap.bytes_per_second)} throughput",
+                subtitle=f"📶 {format_rate_bps(snap.bytes_per_second)} wire rate",
                 accent_color="#00E676",
                 sub_color="#00E676",
             ),
@@ -69,12 +72,13 @@ def render_metric_cards(snap: CaptureStatisticsSnapshot):
 
     with c3:
         st.markdown(
-            card_style.format(
-                title="Avg Packet Size",
+            card_template.format(
+                title="Avg Frame Size",
+                icon="📏",
                 value=f"{int(snap.average_packet_size)} B",
                 subtitle="Calculated wire length",
                 accent_color="#B388FF",
-                sub_color="#94A3B8",
+                sub_color="#A78BFA",
             ),
             unsafe_allow_html=True,
         )
@@ -82,12 +86,13 @@ def render_metric_cards(snap: CaptureStatisticsSnapshot):
     with c4:
         active_protos = sum(1 for c in [snap.tcp_count, snap.udp_count, snap.icmp_count, snap.other_count] if c > 0)
         st.markdown(
-            card_style.format(
-                title="Active Protocols",
+            card_template.format(
+                title="Protocol Diversity",
+                icon="🌐",
                 value=f"{active_protos} / 4",
                 subtitle=f"TCP: {snap.tcp_count} | UDP: {snap.udp_count} | ICMP: {snap.icmp_count}",
                 accent_color="#FFB300",
-                sub_color="#38BDF8",
+                sub_color="#FBBF24",
             ),
             unsafe_allow_html=True,
         )

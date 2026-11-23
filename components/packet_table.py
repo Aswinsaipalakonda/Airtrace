@@ -1,4 +1,4 @@
-"""High-density packet exploration table component."""
+"""High-density packet exploration table component with rounded styling."""
 
 import pandas as pd
 import streamlit as st
@@ -16,9 +16,10 @@ def render_packet_table(
     if not records:
         st.markdown(
             """
-            <div style="background: #151C2C; border: 1px solid #232F48; border-radius: 8px; padding: 30px; text-align: center; color: #94A3B8;">
-                <p style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">No matching packets found</p>
-                <p style="font-size: 12px; margin: 0;">Adjust your search query or protocol filter, or click <strong>START</strong> above to capture traffic.</p>
+            <div style="background: linear-gradient(145deg, #131B2E 0%, #0D1322 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 40px 20px; text-align: center; color: #94A3B8;">
+                <div style="font-size: 26px; margin-bottom: 8px;">🔍</div>
+                <div style="font-size: 15px; font-weight: 700; color: #F1F5F9; margin-bottom: 4px;">No matching packets found</div>
+                <div style="font-size: 13px; color: #94A3B8;">Adjust your search query or protocol filter, or click <strong style="color: #00C8FF;">START</strong> above to capture traffic.</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -60,7 +61,7 @@ def render_packet_table(
         df,
         use_container_width=True,
         hide_index=True,
-        height=320,
+        height=340,
         selection_mode="single-row",
         on_select="rerun",
         key="packet_table_select",

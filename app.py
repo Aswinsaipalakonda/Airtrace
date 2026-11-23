@@ -19,7 +19,10 @@ from components.packet_table import render_packet_table
 from components.protocol_charts import render_protocol_charts
 
 # Streamlit Page Configuration
-logo_img = ASSETS_DIR / "logo.png"
+logo_img = ASSETS_DIR / "logo_transparent.png"
+if not logo_img.exists():
+    logo_img = ASSETS_DIR / "logo.png"
+
 st.set_page_config(
     page_title="Airtrace — Network Inspector",
     page_icon=str(logo_img) if logo_img.exists() else "📡",
@@ -27,7 +30,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Dark cockpit engineering styling
+# Custom High-End Cockpit Styling with Rounded Corners and Smooth Glows
 st.markdown(
     """
     <style>
@@ -40,40 +43,98 @@ st.markdown(
         background-color: #0B0F19;
     }
     .block-container {
-        padding-top: 1.5rem;
+        padding-top: 1.2rem;
         padding-bottom: 2rem;
         max-width: 95rem;
     }
-    /* Buttons */
+    
+    /* Rounded Buttons with Gradient & Shadows */
     button[kind="primary"] {
-        background: #00C8FF !important;
+        background: linear-gradient(135deg, #00C8FF 0%, #0070F3 100%) !important;
         border: none !important;
-        color: #0B0F19 !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.5px;
-    }
-    button[kind="secondary"] {
-        background: #FF5252 !important;
-        border: none !important;
+        border-radius: 12px !important;
         color: #FFFFFF !important;
         font-weight: 700 !important;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 14px rgba(0, 200, 255, 0.35) !important;
+        transition: all 0.2s ease !important;
     }
-    /* Selectboxes and Inputs */
+    button[kind="primary"]:hover {
+        box-shadow: 0 6px 20px rgba(0, 200, 255, 0.5) !important;
+        transform: translateY(-1px);
+    }
+    button[kind="secondary"] {
+        background: linear-gradient(135deg, #FF4B4B 0%, #DC2626 100%) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 14px rgba(255, 75, 75, 0.35) !important;
+        transition: all 0.2s ease !important;
+    }
+    button[kind="secondary"]:hover {
+        box-shadow: 0 6px 20px rgba(255, 75, 75, 0.5) !important;
+        transform: translateY(-1px);
+    }
+    button:not([kind="primary"]):not([kind="secondary"]) {
+        border-radius: 12px !important;
+        background-color: #1E293B !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #94A3B8 !important;
+        transition: all 0.2s ease !important;
+    }
+    button:not([kind="primary"]):not([kind="secondary"]):hover {
+        border-color: #00C8FF !important;
+        color: #F8FAFC !important;
+    }
+
+    /* Selectboxes and Text Inputs with Rounded Corners */
     div[data-baseweb="select"] > div {
-        background-color: #151C2C !important;
-        border-color: #232F48 !important;
+        background-color: #131B2E !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
         color: #F8FAFC !important;
     }
     input[type="text"] {
-        background-color: #151C2C !important;
-        border: 1px solid #232F48 !important;
+        background-color: #131B2E !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
         color: #F8FAFC !important;
     }
-    /* Dataframe Table styling */
+    
+    /* Modern Rounded Containers for Tables and Expanders */
     [data-testid="stDataFrame"] {
-        background-color: #151C2C;
-        border: 1px solid #232F48;
-        border-radius: 8px;
+        background-color: #131B2E;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px !important;
+        overflow: hidden;
+        box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
+    }
+    details[data-testid="stExpander"] {
+        background-color: #131B2E !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+    summary[data-testid="stExpanderSummary"] {
+        border-radius: 14px !important;
+    }
+    
+    /* Scrollbar Aesthetics */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #0B0F19;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #232F48;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #00C8FF;
     }
     </style>
     """,
@@ -113,7 +174,7 @@ capture_state = controller.state
 elapsed_sec = controller.get_elapsed_seconds()
 render_header(capture_state, elapsed_sec, st.session_state["selected_iface"])
 
-st.markdown("<hr style='border: none; border-top: 1px solid #232F48; margin: 12px 0 16px 0;'/>", unsafe_allow_html=True)
+st.markdown("<hr style='border: none; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 10px 0 14px 0;'/>", unsafe_allow_html=True)
 
 
 # Lifecycle Callback Handlers
@@ -164,7 +225,7 @@ c_title, c_proto, c_search = st.columns([2.5, 2, 2.5])
 
 with c_title:
     st.markdown(
-        "<div style='font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #F8FAFC; padding-top: 5px;'>Live Packet Explorer</div>",
+        "<div style='font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #F8FAFC; padding-top: 6px;'>📡 Live Packet Explorer</div>",
         unsafe_allow_html=True,
     )
 
@@ -179,7 +240,7 @@ with c_proto:
 with c_search:
     search_query = st.text_input(
         "Search IP / Port",
-        placeholder="Search IP or Port...",
+        placeholder="Filter by IP (e.g. 192.168.1) or Port (e.g. 443)...",
         label_visibility="collapsed",
     )
 
@@ -202,12 +263,12 @@ if active_pkt:
     render_packet_details(active_pkt)
 
 # CSV Export Section
-st.markdown("<hr style='border: none; border-top: 1px solid #232F48; margin: 20px 0 14px 0;'/>", unsafe_allow_html=True)
+st.markdown("<hr style='border: none; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 20px 0 14px 0;'/>", unsafe_allow_html=True)
 col_exp_info, col_exp_btn = st.columns([5, 2])
 
 with col_exp_info:
     st.markdown(
-        "<div style='font-size: 12px; color: #94A3B8;'><strong>Export Notice:</strong> CSV export extracts header metadata only. Zero application payloads or sensitive credentials are ever written.</div>",
+        "<div style='font-size: 12px; color: #94A3B8;'><strong>🛡 Privacy Notice:</strong> CSV export extracts packet header metadata only. Application payloads, cookies, and credentials are intentionally omitted.</div>",
         unsafe_allow_html=True,
     )
 

@@ -17,13 +17,21 @@ def render_capture_controls(
     npcap_available: bool,
     npcap_message: str,
 ):
-    """Render the adapter selector, BPF filter, and Start/Stop buttons."""
-    # Npcap alert if unavailable on Windows
+    """Render the adapter selector, BPF filter, and Start/Stop buttons with rounded modern controls."""
+    # Modernized Driver Notice Card
     if not npcap_available:
-        st.warning(
-            f"⚠️ **Windows Capture Driver:** {npcap_message}\n\n"
-            "👉 *Tip: Select **'Airtrace Synthetic Demo Adapter'** to experience live packet decoding and real-time graphs right now!*",
-            icon="ℹ️"
+        st.markdown(
+            f"""
+            <div style="background: rgba(255, 179, 0, 0.06); border: 1px solid rgba(255, 179, 0, 0.25); border-radius: 14px; padding: 12px 18px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 14px;">
+                <div style="font-size: 13px; color: #F1F5F9; line-height: 1.4;">
+                    <strong style="color: #FFB300;">ℹ️ Windows Packet Driver:</strong> {npcap_message}
+                </div>
+                <div style="font-size: 12px; color: #00C8FF; background: rgba(0, 200, 255, 0.1); border: 1px solid rgba(0, 200, 255, 0.25); padding: 4px 10px; border-radius: 10px; white-space: nowrap; font-weight: 600;">
+                    💡 Tip: Synthetic Demo Adapter is active
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
     # Format options for selectbox
@@ -39,8 +47,7 @@ def render_capture_controls(
         if selected_device_id and iface.device_id == selected_device_id:
             default_idx = idx
 
-    st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
-    c1, c2, c3, c4, c5 = st.columns([3.5, 2.5, 1.2, 1.2, 1.2])
+    c1, c2, c3, c4, c5 = st.columns([3.6, 2.4, 1.2, 1.2, 1.2])
 
     with c1:
         selected_id = st.selectbox(
@@ -56,7 +63,7 @@ def render_capture_controls(
     with c2:
         bpf_input = st.text_input(
             "BPF Filter",
-            placeholder="Filter (e.g. 'tcp port 80 or icmp')",
+            placeholder="BPF Filter (e.g. 'tcp port 80 or icmp')",
             disabled=(capture_state == CaptureState.CAPTURING),
             label_visibility="collapsed",
             help="Optional Berkeley Packet Filter expression. Leave empty for all traffic.",

@@ -46,13 +46,20 @@ st.markdown(
         background-color: #070A12;
         color: #F8FAFC;
     }
+    /* Hide Streamlit default top header to prevent overlapping and clipping */
     header[data-testid="stHeader"] {
-        background-color: #070A12;
+        display: none !important;
+    }
+    #MainMenu {
+        visibility: hidden !important;
+    }
+    footer {
+        visibility: hidden !important;
     }
     .block-container {
-        padding-top: 1.2rem;
-        padding-bottom: 2rem;
-        max-width: 96rem;
+        padding-top: 2rem !important;
+        padding-bottom: 2.5rem !important;
+        max-width: 96rem !important;
     }
     
     /* Unified Interactive Buttons */

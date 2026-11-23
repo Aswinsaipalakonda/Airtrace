@@ -174,8 +174,6 @@ capture_state = controller.state
 elapsed_sec = controller.get_elapsed_seconds()
 render_header(capture_state, elapsed_sec, st.session_state["selected_iface"])
 
-st.markdown("<hr style='border: none; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 10px 0 14px 0;'/>", unsafe_allow_html=True)
-
 
 # Lifecycle Callback Handlers
 def handle_start(device_id: str, bpf_filter: str):
